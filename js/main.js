@@ -98,10 +98,23 @@ function initParticles() {
 // === RENDER ARTICLES ===
 function renderArticles() {
     const grid = document.getElementById('article-grid');
-    if (!grid || !ARTICLES) return;
+    if (!grid) return;
+    
+    // Fallback article data if articles.js didn't load
+    const articles = window.ARTICLES || [
+        {
+            id: "breaktruth-21-grid-brain-criticality",
+            title: "The Grid and the Brain Share One Criticality",
+            subtitle: "Blackout and Seizure Prediction Are the Same Problem",
+            date: "2026-06-07", readTime: "25 min", lines: 592,
+            excerpt: "The electricity grid and the brain both operate near criticality — small perturbations cascade into system-wide events.",
+            tags: ["Complex Systems", "Neuroscience", "Criticality", "Energy"],
+            domains: 4, heroColor: "#6c5ce7"
+        }
+    ];
     
     // Featured
-    const latest = ARTICLES[0];
+    const latest = articles[0];
     if (latest) {
         document.getElementById('featured-date').textContent = latest.date;
         document.getElementById('featured-read').textContent = latest.readTime;
@@ -114,7 +127,7 @@ function renderArticles() {
     }
     
     // Grid
-    grid.innerHTML = ARTICLES.map(a => `
+    grid.innerHTML = articles.map(a => `
         <article class="article-card">
             <div class="card-image">
                 <div class="card-img-placeholder" style="background: radial-gradient(circle at 50% 50%, ${a.heroColor}22, transparent); min-height:200px;"></div>
@@ -223,21 +236,22 @@ function renderHeroDiagram() {
 
 // === STATS ===
 function initStats() {
-    if (!ARTICLES) return;
+    const articles = window.ARTICLES || [];
+    if (!articles.length) return;
     const count = document.getElementById('article-count');
     const lines = document.getElementById('total-lines');
     const domains = document.getElementById('domains-covered');
     if (count) {
         let c = 0, l = 0, d = new Set();
         const interval = setInterval(() => {
-            if (c < ARTICLES.length) {
-                c++; l += ARTICLES[c-1].lines;
-                ARTICLES[c-1].tags.forEach(t => d.add(t));
+            if (c < articles.length) {
+                c++; l += articles[c-1].lines;
+                articles[c-1].tags.forEach(t => d.add(t));
             }
             count.textContent = c;
             lines.textContent = l.toLocaleString();
             domains.textContent = d.size;
-            if (c >= ARTICLES.length) clearInterval(interval);
+            if (c >= articles.length) clearInterval(interval);
         }, 100);
     }
 }

@@ -1,5 +1,5 @@
 // Breaktruth Blog — Article Registry
-const ARTICLES = [
+window.ARTICLES = [
   {
     id: "breaktruth-21-grid-brain-criticality",
     title: "The Grid and the Brain Share One Criticality",
