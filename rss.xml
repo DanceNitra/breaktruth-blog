@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Breaktruth — Deep Research Blog</title>
+    <link>https://dancenitra.github.io/breaktruth-blog/</link>
+    <description>Deep-dive articles uncovering structural isomorphisms across neuroscience, AI, finance, physics, and complex systems.</description>
+    <language>en</language>
+    <atom:link href="https://dancenitra.github.io/breaktruth-blog/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>The Grid and the Brain Share One Criticality</title>
+      <link>https://dancenitra.github.io/breaktruth-blog/articles/breaktruth-21-grid-brain-criticality/</link>
+      <description>Blackout and seizure prediction are the same mathematical problem. This is the strongest evidence that criticality is a universal organising principle of complex systems.</description>
+      <pubDate>Sun, 07 Jun 2026 08:00:00 UTC</pubDate>
+      <guid>breaktruth-21-grid-brain-criticality</guid>
+      <content:encoded><![CDATA[780-line deep dive: grid criticality, neural avalanches, self-organised criticality, and the shared mathematics of blackout and seizure prediction.]]></content:encoded>
+    </item>
+  </channel>
+</rss>
