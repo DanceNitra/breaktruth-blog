@@ -6,7 +6,7 @@ const ARTICLES = [
     subtitle: "Blackout and Seizure Prediction Are the Same Problem",
     date: "2026-06-07",
     readTime: "25 min",
-    lines: 780,
+    lines: 592,
     excerpt: "The electricity grid and the brain both operate near criticality — small perturbations cascade into system-wide events. Blackout sizes follow power-law distributions identical to neural avalanches. Critical slowing-down predicts both. Grid stability and brain stability are the same mathematical problem, with identical early-warning mathematics.",
     tags: ["Complex Systems", "Neuroscience", "Criticality", "Energy"],
     domains: 4,
