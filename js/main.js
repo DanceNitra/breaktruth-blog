@@ -1,16 +1,15 @@
-// Breaktruth Blog — Main JavaScript
+// Breaktruth Blog — Main JavaScript (decorative only)
 
 document.addEventListener('DOMContentLoaded', () => {
     initCursor();
     initParticles();
-    renderArticles();
     renderHeroDiagram();
-    initStats();
 });
 
 // === CURSOR ===
 function initCursor() {
     const glow = document.querySelector('.cursor-glow');
+    if (!glow) return;
     let x = 0, y = 0;
     document.addEventListener('mousemove', (e) => {
         x = e.clientX;
@@ -36,9 +35,7 @@ function initParticles() {
     window.addEventListener('resize', resize);
 
     class Particle {
-        constructor() {
-            this.reset();
-        }
+        constructor() { this.reset(); }
         reset() {
             this.x = Math.random() * w;
             this.y = Math.random() * h;
@@ -66,11 +63,7 @@ function initParticles() {
 
     function animate() {
         ctx.clearRect(0, 0, w, h);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
-        // Connection lines near cursor
+        particles.forEach(p => { p.update(); p.draw(); });
         particles.forEach((a, i) => {
             for (let j = i + 1; j < particles.length; j++) {
                 const b = particles[j];
@@ -95,58 +88,6 @@ function initParticles() {
     animate();
 }
 
-// === RENDER ARTICLES ===
-function renderArticles() {
-    const grid = document.getElementById('article-grid');
-    if (!grid) return;
-    
-    // Fallback article data if articles.js didn't load
-    const articles = window.ARTICLES || [
-        {
-            id: "breaktruth-21-grid-brain-criticality",
-            title: "The Grid and the Brain Share One Criticality",
-            subtitle: "Blackout and Seizure Prediction Are the Same Problem",
-            date: "2026-06-07", readTime: "25 min", lines: 592,
-            excerpt: "The electricity grid and the brain both operate near criticality — small perturbations cascade into system-wide events.",
-            tags: ["Complex Systems", "Neuroscience", "Criticality", "Energy"],
-            domains: 4, heroColor: "#6c5ce7"
-        }
-    ];
-    
-    // Featured
-    const latest = articles[0];
-    if (latest) {
-        document.getElementById('featured-date').textContent = latest.date;
-        document.getElementById('featured-read').textContent = latest.readTime;
-        document.getElementById('featured-lines').textContent = `${latest.lines} lines`;
-        document.getElementById('featured-title').textContent = `${latest.title}: ${latest.subtitle}`;
-        document.getElementById('featured-excerpt').textContent = latest.excerpt;
-        document.getElementById('featured-tags').innerHTML = latest.tags.map(t => `<span>${t}</span>`).join('');
-        document.getElementById('featured-img').style.background = `radial-gradient(circle at 50% 50%, ${latest.heroColor}22, transparent)`;
-        document.getElementById('featured-link').href = `articles/${latest.id}/`;
-    }
-    
-    // Grid
-    grid.innerHTML = articles.map(a => `
-        <article class="article-card">
-            <div class="card-image">
-                <div class="card-img-placeholder" style="background: radial-gradient(circle at 50% 50%, ${a.heroColor}22, transparent); min-height:200px;"></div>
-            </div>
-            <div class="card-content">
-                <div class="card-meta">
-                    <span class="card-date">${a.date}</span>
-                    <span class="card-read-time">${a.readTime}</span>
-                    <span class="card-lines">${a.lines} lines</span>
-                </div>
-                <h3 class="card-title">${a.title}</h3>
-                <p class="card-excerpt">${a.excerpt.substring(0, 150)}...</p>
-                <div class="card-tags">${a.tags.map(t => `<span>${t}</span>`).join('')}</div>
-                <a class="card-link" href="articles/${a.id}/">Read Analysis →</a>
-            </div>
-        </article>
-    `).join('');
-}
-
 // === HERO DIAGRAM ===
 function renderHeroDiagram() {
     const canvas = document.getElementById('featured-canvas');
@@ -168,7 +109,6 @@ function renderHeroDiagram() {
         const cx = w / 2, cy = h / 2;
         const outerR = Math.min(w, h) * 0.35;
         
-        // Draw interconnected nodes (structural isomorphism visual)
         const nodes = [];
         for (let i = 0; i < 8; i++) {
             const angle = (i / 8) * Math.PI * 2 - Math.PI / 2;
@@ -180,7 +120,6 @@ function renderHeroDiagram() {
             });
         }
         
-        // Connection lines
         for (let i = 0; i < nodes.length; i++) {
             for (let j = i + 1; j < nodes.length; j++) {
                 const alpha = 0.1 + Math.random() * 0.15;
@@ -193,7 +132,6 @@ function renderHeroDiagram() {
             }
         }
         
-        // Nodes
         nodes.forEach(n => {
             const gradient = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, 20);
             gradient.addColorStop(0, n.color);
@@ -214,7 +152,6 @@ function renderHeroDiagram() {
             ctx.fillText(n.label, n.x, n.y + 32);
         });
         
-        // Center
         const cGradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, 30);
         cGradient.addColorStop(0, 'rgba(108,92,231,0.6)');
         cGradient.addColorStop(1, 'transparent');
@@ -231,27 +168,5 @@ function renderHeroDiagram() {
         ctx.font = 'bold 9px Inter';
         ctx.textAlign = 'center';
         ctx.fillText('Φ', cx, cy + 3);
-    }
-}
-
-// === STATS ===
-function initStats() {
-    const articles = window.ARTICLES || [];
-    if (!articles.length) return;
-    const count = document.getElementById('article-count');
-    const lines = document.getElementById('total-lines');
-    const domains = document.getElementById('domains-covered');
-    if (count) {
-        let c = 0, l = 0, d = new Set();
-        const interval = setInterval(() => {
-            if (c < articles.length) {
-                c++; l += articles[c-1].lines;
-                articles[c-1].tags.forEach(t => d.add(t));
-            }
-            count.textContent = c;
-            lines.textContent = l.toLocaleString();
-            domains.textContent = d.size;
-            if (c >= articles.length) clearInterval(interval);
-        }, 100);
     }
 }
